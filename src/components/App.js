@@ -13,7 +13,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-/* import { Route, Routes } from "react-router-dom"; */
+import { Route, Routes } from "react-router-dom";
+import RequireAuth from "./RequireAuth";
 
 function App() {
 
@@ -70,7 +71,7 @@ function App() {
     return api.patchUserInfo(newUserInfo)
       .then(res => {
         setCurrentUser(res);
-/*         setIsEditProfilePopupOpen(false); */
+        /*         setIsEditProfilePopupOpen(false); */
       })
       .catch(handleError)
   }
@@ -79,7 +80,7 @@ function App() {
     return api.patchAvatar(newLink)
       .then(res => {
         setCurrentUser(res);
-/*         setIsEditAvatarPopupOpen(false); */
+        /*         setIsEditAvatarPopupOpen(false); */
       })
       .catch(handleError)
   }
@@ -118,7 +119,7 @@ function App() {
     return api.deleteCard(selectedCard._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== selectedCard._id));
-/*         setIsCardDeleteConfirmPopupOpen(false) */
+        /*         setIsCardDeleteConfirmPopupOpen(false) */
       })
       .catch(handleError);
   }
@@ -127,7 +128,7 @@ function App() {
     return api.postCard(newCardData)
       .then(newCard => {
         setCards([newCard, ...cards]);
-/*         setIsAddPlacePopupOpen(false); */
+        /*         setIsAddPlacePopupOpen(false); */
       })
       .catch(handleError)
   }
@@ -136,64 +137,74 @@ function App() {
     <div className="wrapper">
 
       <CurrentUserContext.Provider value={currentUser}>
-{/*         <Routes>
-          <Route exact path="/"> */}
 
-            <Header />
+        <Header />
 
-            <Main
-              onEditAvatar={handleEditAvatarClick}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              cards={cards}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDeleteClick}
-            />
+        <Routes>
+          <Route
+            path="/sign-up"
+/*             element={ } */
+          />
+          <Route
+            path="/sign-in"
+          />
+          <Route
+            path="/"
+            element={
+              <RequireAuth redirectTo="/sign-in">
+                <Main
+                  onEditAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  cards={cards}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDeleteClick}
+                />
 
-            <Footer />
+                <Footer />
 
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-              setOpenState={setIsEditProfilePopupOpen}
-            />
+                <EditProfilePopup
+                  isOpen={isEditProfilePopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateUser={handleUpdateUser}
+                  setOpenState={setIsEditProfilePopupOpen}
+                />
 
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddCard={handleAddCard}
-              setOpenState={setIsAddPlacePopupOpen}
-            />
+                <AddPlacePopup
+                  isOpen={isAddPlacePopupOpen}
+                  onClose={closeAllPopups}
+                  onAddCard={handleAddCard}
+                  setOpenState={setIsAddPlacePopupOpen}
+                />
 
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-              setOpenState={setIsEditAvatarPopupOpen}
-            />
+                <EditAvatarPopup
+                  isOpen={isEditAvatarPopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateAvatar={handleUpdateAvatar}
+                  setOpenState={setIsEditAvatarPopupOpen}
+                />
 
-            <PopupWithForm
-              isOpen={isCardDeleteConfirmPopupOpen}
-              onClose={closeAllPopups}
-              onSubmit={handleCardDelete}
-              title="Вы уверены?"
-              name="accept"
-              buttonText="Да"
-              buttonWaitingText="Удаление..."
-              setOpenState={setIsCardDeleteConfirmPopupOpen}
-            />
+                <PopupWithForm
+                  isOpen={isCardDeleteConfirmPopupOpen}
+                  onClose={closeAllPopups}
+                  onSubmit={handleCardDelete}
+                  title="Вы уверены?"
+                  name="accept"
+                  buttonText="Да"
+                  buttonWaitingText="Удаление..."
+                  setOpenState={setIsCardDeleteConfirmPopupOpen}
+                />
 
-            <ImagePopup
-              card={selectedCard}
-              isOpen={isImagePopupOpen}
-              onClose={closeAllPopups}
-              setOpenState={setIsImagePopupOpen}
-            />
-{/*
-          </Route>
-        </Routes> */}
+                <ImagePopup
+                  card={selectedCard}
+                  isOpen={isImagePopupOpen}
+                  onClose={closeAllPopups}
+                  setOpenState={setIsImagePopupOpen}
+                />
+              </RequireAuth>
+            } />
+        </Routes>
       </CurrentUserContext.Provider>
 
     </div>
