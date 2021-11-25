@@ -1,12 +1,6 @@
 ﻿.header {
-  min-height: 120px;
+  min-height: var(--header-height);
   border-bottom: 1px solid rgba(84, 84, 84, .7);
   display: flex;
   align-items: center;
-}
-
-@media screen and (max-width: 800px) {
-  .header {
-    min-height: 84px;
-  }
 }

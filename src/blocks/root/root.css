@@ -14,3 +14,9 @@
     --page-padding: 19px;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .root {
+    --header-height: 84px;
+  }
+}
