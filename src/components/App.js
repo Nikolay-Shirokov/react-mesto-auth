@@ -161,7 +161,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path="/*"
             element={
               <RequireAuth {...authInfo} redirectTo="/sign-in">
                 <Main
