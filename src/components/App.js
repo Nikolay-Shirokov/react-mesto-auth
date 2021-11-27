@@ -32,6 +32,8 @@ function App() {
 
   const { authInfo, handleSignup, handleSignin, checkToken, handleLogout } = useAuth();
 
+  console.log(authInfo);
+
   useEffect(() => {
 
     checkToken();
@@ -145,7 +147,7 @@ function App() {
 
       <CurrentUserContext.Provider value={currentUser}>
 
-        <Header handleLogout={handleLogout} />
+        <Header handleLogout={handleLogout} {...authInfo} />
 
         <Routes>
           <Route
@@ -163,7 +165,7 @@ function App() {
           <Route
             path="/"
             element={
-              <RequireAuth loggedIn={authInfo.loggedIn} redirectTo="/sign-in">
+              <RequireAuth {...authInfo} redirectTo="/sign-in">
                 <Main
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}
