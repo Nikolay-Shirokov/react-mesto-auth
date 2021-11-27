@@ -17,6 +17,7 @@ import { Route, Routes } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 import Login from "./Login";
 import Register from "./Register";
+import { useAuth } from "../hooks/useAuth";
 
 function App() {
 
@@ -29,12 +30,16 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
+  const { authInfo, handleSignup, handleSignin, checkToken, handleLogout } = useAuth();
+
   useEffect(() => {
+
+    checkToken();
 
     // Загрузка данных профиля с сервера
     api.getUserInfo()
-      .then(data => {
-        setCurrentUser(data);
+      .then(newUserInfo => {
+        setCurrentUser(newUserInfo)
       })
       .catch(handleError);
 
@@ -140,25 +145,25 @@ function App() {
 
       <CurrentUserContext.Provider value={currentUser}>
 
-        <Header />
+        <Header handleLogout={handleLogout} />
 
         <Routes>
           <Route
             path="/sign-up"
             element={
-              <Register />
+              <Register handleSubmit={handleSignup} />
             }
           />
           <Route
             path="/sign-in"
             element={
-              <Login />
+              <Login handleSubmit={handleSignin} />
             }
           />
           <Route
             path="/"
             element={
-              <RequireAuth redirectTo="/sign-in">
+              <RequireAuth loggedIn={authInfo.loggedIn} redirectTo="/sign-in">
                 <Main
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}

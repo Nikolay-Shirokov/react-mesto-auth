@@ -6,7 +6,7 @@ function FormAuth(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    props.handleSubmit(values);
   }
 
   return (
