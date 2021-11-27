@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router';
 
 export function useAuth() {
 
-  const emptyAuthinfo = {
+  const emptyAuthInfo = {
     loggedIn: false,
   }
 
   const navigate = useNavigate();
 
-  const [authInfo, setAuthInfo] = useState(emptyAuthinfo);
+  const [authInfo, setAuthInfo] = useState(emptyAuthInfo);
   const baseUrl = 'https://auth.nomoreparties.co';
 
   const sendQuery = (url, queryParams) => {
@@ -79,7 +79,7 @@ export function useAuth() {
         setAuthInfo({
           ...authInfo,
           loggedIn: true,
-          email: res.email,
+          email: res.data.email,
         });
         navigate('/')
       })
@@ -94,7 +94,7 @@ export function useAuth() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setAuthInfo(emptyAuthinfo);
+    setAuthInfo(emptyAuthInfo);
   }
 
   return { authInfo, setAuthInfo, handleSignup, handleSignin, checkToken, handleLogout };
