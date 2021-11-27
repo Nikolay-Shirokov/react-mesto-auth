@@ -25,7 +25,8 @@ export function useAuth() {
         if (res.ok) {
           return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return res.json()
+          .then(errorObject => Promise.reject({text: errorObject.error? errorObject.error: errorObject.message}))
       })
 
   }
@@ -59,7 +60,7 @@ export function useAuth() {
   const handleSignup = (userInfo) => {
     return signup(userInfo)
       .then(res => {
-        handleSignin(userInfo);
+        /* handleSignin(userInfo); */
       })
   }
 

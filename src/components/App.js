@@ -32,8 +32,6 @@ function App() {
 
   const { authInfo, handleSignup, handleSignin, checkToken, handleLogout } = useAuth();
 
-  console.log(authInfo);
-
   useEffect(() => {
 
     checkToken();
